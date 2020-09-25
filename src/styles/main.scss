@@ -1,0 +1,34 @@
+body,
+html {
+  font-family: "Bebas Neue", cursive;
+  background-color: #2b4162;
+  background-image: linear-gradient(315deg, #2b4162 0%, #12100e 74%);
+}
+
+.container {
+  width: 90vw;
+  margin: 5em auto;
+}
+
+.movie-list {
+  display: grid;
+  justify-items: center;
+  grid-gap: 2em;
+  grid-template-columns: repeat(5, 1fr);
+  .card {
+    text-align: center;
+    color: #e5e5e5;
+    h1 {
+      margin-top: 0;
+      font-weight: lighter;
+      font-size: 20px;
+      text-align: center;
+    }
+    img {
+      width: 250px;
+      height: 400px;
+      box-shadow: 0px 8px 8px 0px #000000;
+      border-radius: 10px;
+    }
+  }
+}
