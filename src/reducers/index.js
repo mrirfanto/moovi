@@ -1,9 +1,6 @@
 // REDUCERS
 import { combineReducers } from "redux";
-
-const moviesReducer = () => {
-  return [];
-};
+import movieListReducer from "./movieListReducer";
 
 const selectedMovieReducer = (selectedMovie = null, action) => {
   if (action.type === "MOVIE_SELECTED") return action.payload;
@@ -11,6 +8,6 @@ const selectedMovieReducer = (selectedMovie = null, action) => {
 };
 
 export default combineReducers({
-  movieList: moviesReducer,
+  movieList: movieListReducer,
   selectedMovie: selectedMovieReducer,
 });

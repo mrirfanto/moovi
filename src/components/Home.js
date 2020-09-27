@@ -1,6 +1,9 @@
 import React from "react";
+import { connect } from "react-redux";
+
 import moviedb from "../api/moviedb";
 import MovieList from "../components/MovieList";
+import { getPopularMovies } from "../actions";
 
 class Home extends React.Component {
   state = {
@@ -19,6 +22,7 @@ class Home extends React.Component {
   }
 
   componentDidMount() {
+    this.props.getPopularMovies();
     this.getConfigurationApi();
     this.getPopularMovies();
   }
@@ -35,4 +39,6 @@ class Home extends React.Component {
   }
 }
 
-export default Home;
+export default connect(null, {
+  getPopularMovies,
+})(Home);
