@@ -1,44 +1,43 @@
 import React from "react";
 import { connect } from "react-redux";
 
-import moviedb from "../api/moviedb";
 import MovieList from "../components/MovieList";
-import { getPopularMovies } from "../actions";
+import {
+  getPopularMovies,
+  getNowPlayingMovies,
+  getConfigurationApi,
+} from "../actions";
 
 class Home extends React.Component {
-  state = {
-    popularMovies: [],
-    configurationApi: {},
-  };
-
-  async getPopularMovies() {
-    const res = await moviedb.get("/movie/popular");
-    this.setState({ popularMovies: res.data.results });
-  }
-
-  async getConfigurationApi() {
-    const res = await moviedb.get("configuration");
-    this.setState({ configurationApi: res.data });
-  }
-
   componentDidMount() {
+    this.props.getNowPlayingMovies();
+    this.props.getConfigurationApi();
     this.props.getPopularMovies();
-    this.getConfigurationApi();
-    this.getPopularMovies();
   }
 
   render() {
     return (
       <div className="container">
         <MovieList
-          movies={this.state.popularMovies}
-          configApi={this.state.configurationApi}
+          nowPlaying={this.props.nowPlaying}
+          movies={this.props.movieList}
+          configApi={this.props.configApi}
         />
       </div>
     );
   }
 }
 
-export default connect(null, {
+const mapStateToProps = (state) => {
+  return {
+    movieList: state.movieList,
+    nowPlaying: state.nowPlaying,
+    configApi: state.configApi,
+  };
+};
+
+export default connect(mapStateToProps, {
   getPopularMovies,
+  getNowPlayingMovies,
+  getConfigurationApi,
 })(Home);
