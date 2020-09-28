@@ -10,9 +10,7 @@ class MovieList extends Component {
 
   renderNowPlaying() {
     return this.props.nowPlaying
-      .sort((a, b) => {
-        return b.vote_average - a.vote_average;
-      })
+      .sort((a, b) => b.vote_average - a.vote_average)
       .slice(0, 5)
       .map((movie) => {
         return (
