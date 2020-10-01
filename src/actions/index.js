@@ -14,6 +14,16 @@ export const getPopularMovies = () => async (dispatch) => {
   dispatch({ type: "GET_POPULAR_MOVIES", payload: response.data.results });
 };
 
+export const searchMovie = (query) => async (dispatch) => {
+  const response = await moviedb.get("/search/movie", {
+    params: {
+      query,
+    },
+  });
+
+  dispatch({ type: "SEARCH_MOVIE", payload: response.data.results });
+};
+
 export const getNowPlayingMovies = () => async (dispatch) => {
   const response = await moviedb.get("/movie/now_playing");
 

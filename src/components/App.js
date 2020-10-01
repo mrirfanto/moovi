@@ -10,11 +10,9 @@ class App extends React.Component {
     return (
       <div>
         <BrowserRouter>
-          <div>
-            <Route path="/" exact component={Home} />
-            <Link to="/detail">See detail</Link>
-            <Route path="/detail" component={Detail} />
-          </div>
+          <Route path="/" exact component={Home} />
+          <Link to="/detail">See detail</Link>
+          <Route path="/detail" component={Detail} />
         </BrowserRouter>
       </div>
     );

@@ -13,9 +13,15 @@ const configApiReducer = (state = {}, action) => {
   else return state;
 };
 
+const searchMovieReducer = (state = [], action) => {
+  if (action.type === "SEARCH_MOVIE") return action.payload;
+  else return state;
+};
+
 export default combineReducers({
   movieList: movieListReducer,
   nowPlaying: nowPlayingReducer,
   configApi: configApiReducer,
+  searchMovieResults: searchMovieReducer,
   selectedMovie: selectedMovieReducer,
 });
