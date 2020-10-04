@@ -2,6 +2,7 @@
 import { combineReducers } from "redux";
 import movieListReducer from "./movieListReducer";
 import nowPlayingReducer from "./nowPlayingReducer";
+import movieDetailReducer from "./movieDetailReducer";
 
 const selectedMovieReducer = (selectedMovie = null, action) => {
   if (action.type === "MOVIE_SELECTED") return action.payload;
@@ -18,10 +19,17 @@ const searchMovieReducer = (state = [], action) => {
   else return state;
 };
 
+const similarMoviesReducer = (state = [], action) => {
+  if (action.type === "GET_SIMILAR_MOVIES") return action.payload;
+  else return state;
+};
+
 export default combineReducers({
   movieList: movieListReducer,
   nowPlaying: nowPlayingReducer,
   configApi: configApiReducer,
   searchMovieResults: searchMovieReducer,
   selectedMovie: selectedMovieReducer,
+  movieDetail: movieDetailReducer,
+  similarMovies: similarMoviesReducer,
 });

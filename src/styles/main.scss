@@ -10,7 +10,7 @@ html {
   position: relative;
 }
 
-.title {
+.section-title {
   color: #e5e5e5;
   font-weight: 600;
   margin-left: 1.2em;
@@ -50,25 +50,98 @@ html {
   }
 }
 
+.btn {
+  cursor: pointer;
+  color: #e5e5e5;
+  background: none;
+  font-size: 1.2em;
+  font-weight: bolder;
+  border: 2px solid #e5e5e5;
+  border-radius: 5px;
+  padding: 0.5em 1em;
+  letter-spacing: 0.2em;
+}
+
 .movie-list {
   display: grid;
   justify-items: center;
   grid-gap: 2em;
   grid-template-columns: repeat(5, 1fr);
   .card {
-    text-align: center;
     color: #e5e5e5;
     h1 {
-      margin-top: 0;
       font-weight: lighter;
       font-size: 20px;
       text-align: center;
     }
-    img {
+    &__poster {
+      margin: 0 auto;
+      position: relative;
       width: 250px;
       height: 400px;
-      box-shadow: 0px 8px 8px 0px #000000;
       border-radius: 10px;
+      box-shadow: 0px 8px 8px 0px #000000;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+      }
+      &__overlay {
+        background-color: rgba(32, 32, 32, 0.6);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+  }
+}
+
+.detail {
+  max-width: 60%;
+  margin: 0 auto;
+  margin-bottom: 7em;
+  font-family: "Lato", sans-serif;
+  display: flex;
+  &__poster {
+    width: 350px;
+    height: 550px;
+    border-radius: 10px;
+    box-shadow: 0px 8px 8px 0px #000000;
+    img {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &__description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 3em;
+    color: #e5e5e5;
+    h2 {
+      font-size: 1.2em;
+      margin-top: 2em;
+      margin-bottom: 0;
+    }
+    .title {
+      margin: 0.3em 0;
+      font-size: 3.4em;
+    }
+    .info {
+      display: flex;
+      :first-child {
+        width: 120px;
+      }
+    }
+    .overview {
+      line-height: 1.8em;
+      font-size: 1.2em;
     }
   }
 }

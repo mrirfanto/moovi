@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Link } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 
 import "../styles/main.scss";
 import Home from "./Home";
@@ -11,8 +11,7 @@ class App extends React.Component {
       <div>
         <BrowserRouter>
           <Route path="/" exact component={Home} />
-          <Link to="/detail">See detail</Link>
-          <Route path="/detail" component={Detail} />
+          <Route path="/detail/:movieId" component={Detail} />
         </BrowserRouter>
       </div>
     );

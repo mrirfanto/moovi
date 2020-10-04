@@ -35,3 +35,15 @@ export const getConfigurationApi = () => async (dispatch) => {
 
   dispatch({ type: "GET_CONFIG_API", payload: response.data });
 };
+
+export const getMovieDetail = (movieId) => async (dispatch) => {
+  const response = await moviedb.get(`/movie/${movieId}`);
+
+  dispatch({ type: "GET_MOVIE_DETAIL", payload: response.data });
+};
+
+export const getSimilarMovies = (movieId) => async (dispatch) => {
+  const response = await moviedb.get(`/movie/${movieId}/similar`);
+
+  dispatch({ type: "GET_SIMILAR_MOVIES", payload: response.data.results });
+};

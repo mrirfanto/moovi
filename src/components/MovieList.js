@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
-import { selectMovie } from "../actions";
+import MovieCard from "./MovieCard";
 
 class MovieList extends Component {
   getImageSource(poster_path, configApi) {
@@ -12,17 +11,15 @@ class MovieList extends Component {
     if (!this.props.movies) return "";
     return this.props.movies.map((movie) => {
       return (
-        <div
-          onClick={() => this.props.selectMovie(movie)}
-          className="card"
+        <MovieCard
           key={movie.id}
-        >
-          <img
-            src={this.getImageSource(movie.poster_path, this.props.configApi)}
-            alt={movie.original_title.toLowerCase().replace("", "-")}
-          />
-          <h1>{movie.title}</h1>
-        </div>
+          movieId={movie.id}
+          movieTitle={movie.title}
+          movieImg={this.getImageSource(
+            movie.poster_path,
+            this.props.configApi
+          )}
+        />
       );
     });
   }
@@ -32,12 +29,4 @@ class MovieList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    selectedMovie: state.selectedMovie,
-  };
-};
-
-export default connect(mapStateToProps, {
-  selectMovie,
-})(MovieList);
+export default MovieList;
