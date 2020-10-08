@@ -2,8 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 
 import MovieList from "./MovieList";
-import SearchBar from "./SearchBar";
-import { getPopularMovies, getConfigurationApi, searchMovie } from "../actions";
+import { getPopularMovies, getConfigurationApi } from "../actions";
 
 class Home extends React.Component {
   componentDidMount() {
@@ -11,14 +10,9 @@ class Home extends React.Component {
     this.props.getPopularMovies();
   }
 
-  onSearchSubmit = (query) => {
-    this.props.searchMovie(query);
-  };
-
   render() {
     return (
       <div className="container">
-        <SearchBar onSubmit={this.onSearchSubmit} />
         <h1 className="section-title">Popular Movies</h1>
         <MovieList
           movies={this.props.movieList}
@@ -38,7 +32,6 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, {
-  searchMovie,
   getPopularMovies,
   getConfigurationApi,
 })(Home);

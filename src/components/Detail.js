@@ -42,7 +42,6 @@ class Detail extends React.Component {
   }
   render() {
     const { movieDetail, configApi, similarMovies } = this.props;
-    console.log(movieDetail);
     if (Object.keys(movieDetail).length > 0) {
       return (
         <div className="container">
@@ -55,7 +54,7 @@ class Detail extends React.Component {
             <div className="detail__description">
               <h1 className="title">{movieDetail.title}</h1>
               <div className="info">
-                <div>{movieDetail.vote_average}</div>
+                <div>Rating: {movieDetail.vote_average}</div>
                 <div>
                   {movieDetail.runtime} MIN /{" "}
                   {movieDetail.release_date.split("-")[0]}
@@ -65,8 +64,14 @@ class Detail extends React.Component {
               <p className="overview">{movieDetail.overview}</p>
             </div>
           </div>
-          <h1 className="section-title">Similar Movies</h1>
-          <MovieList movies={similarMovies} configApi={configApi} />
+          {similarMovies.length > 0 ? (
+            <>
+              <h1 className="section-title">Similar Movies</h1>
+              <MovieList movies={similarMovies} configApi={configApi} />
+            </>
+          ) : (
+            ""
+          )}
         </div>
       );
     }
