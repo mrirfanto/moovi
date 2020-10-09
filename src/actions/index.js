@@ -47,3 +47,9 @@ export const getSimilarMovies = (movieId) => async (dispatch) => {
 
   dispatch({ type: "GET_SIMILAR_MOVIES", payload: response.data.results });
 };
+
+export const getMovieGenres = () => async (dispatch) => {
+  const response = await moviedb.get("/genre/movie/list");
+
+  dispatch({ type: "GET_MOVIE_GENRES", payload: response.data.genres });
+};

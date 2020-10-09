@@ -6,7 +6,7 @@ const SearchResults = (props) => {
   const { searchMovieResults, configApi } = props;
   console.log(searchMovieResults);
   return (
-    <div className="container">
+    <div>
       <h1 className="section-title">Search Results</h1>
       <MovieList movies={searchMovieResults} configApi={configApi} />
     </div>

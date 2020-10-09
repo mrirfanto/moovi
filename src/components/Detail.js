@@ -44,7 +44,7 @@ class Detail extends React.Component {
     const { movieDetail, configApi, similarMovies } = this.props;
     if (Object.keys(movieDetail).length > 0) {
       return (
-        <div className="container">
+        <div>
           <div className="detail">
             <img
               className="detail__poster"

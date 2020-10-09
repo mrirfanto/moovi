@@ -24,6 +24,11 @@ const similarMoviesReducer = (state = [], action) => {
   else return state;
 };
 
+const movieGenresReducer = (state = [], action) => {
+  if (action.type === "GET_MOVIE_GENRES") return action.payload;
+  else return state;
+};
+
 export default combineReducers({
   movieList: movieListReducer,
   nowPlaying: nowPlayingReducer,
@@ -32,4 +37,5 @@ export default combineReducers({
   selectedMovie: selectedMovieReducer,
   movieDetail: movieDetailReducer,
   similarMovies: similarMoviesReducer,
+  movieGenres: movieGenresReducer,
 });

@@ -6,6 +6,7 @@ import Home from "./Home";
 import Detail from "./Detail";
 import Header from "./Header";
 import SearchResults from "./SearchResults";
+import Sidebar from "./Sidebar";
 
 class App extends React.Component {
   render() {
@@ -13,9 +14,14 @@ class App extends React.Component {
       <div>
         <BrowserRouter>
           <Header />
-          <Route path="/" exact component={Home} />
-          <Route path="/detail/:movieId" component={Detail} />
-          <Route path="/search" component={SearchResults} />
+          <aside>
+            <Sidebar />
+          </aside>
+          <main className="container main">
+            <Route path="/" exact component={Home} />
+            <Route path="/detail/:movieId" component={Detail} />
+            <Route path="/search" component={SearchResults} />
+          </main>
         </BrowserRouter>
       </div>
     );
