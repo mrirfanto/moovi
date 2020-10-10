@@ -2,48 +2,34 @@ import React from "react";
 import { connect } from "react-redux";
 
 import MovieList from "./MovieList";
-import {
-  getPopularMovies,
-  getConfigurationApi,
-  getMovieGenres,
-} from "../actions";
+import { getPopularMovies } from "../actions";
 
 class Home extends React.Component {
   componentDidMount() {
-    this.props.getMovieGenres();
-    this.props.getConfigurationApi();
     this.props.getPopularMovies();
   }
 
   render() {
     return (
-      <div>
+      <section>
         <h1 className="section-title">Popular Movies</h1>
         <MovieList
           movies={this.props.movieList}
           configApi={this.props.configApi}
         />
-      </div>
+      </section>
     );
   }
 }
 
-const mapStateToProps = ({
-  movieList,
-  configApi,
-  searchMovieResults,
-  movieGenres,
-}) => {
+const mapStateToProps = ({ movieList, configApi, searchMovieResults }) => {
   return {
     movieList,
     configApi,
     searchMovieResults,
-    movieGenres,
   };
 };
 
 export default connect(mapStateToProps, {
   getPopularMovies,
-  getConfigurationApi,
-  getMovieGenres,
 })(Home);

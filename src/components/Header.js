@@ -10,7 +10,7 @@ const Header = (props) => {
 
   const onSearchSubmit = (query) => {
     props.searchMovie(query);
-    history.push("/search");
+    history.push(`/search/${query}`);
   };
 
   return (

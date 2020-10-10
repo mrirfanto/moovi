@@ -1,30 +1,36 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 
-class SearchBar extends React.Component {
-  state = { query: "" };
+const SearchBar = (props) => {
+  const history = useHistory();
+  const [query, setQuery] = useState("");
 
-  onFormSubmit = (event) => {
+  useEffect(() => {
+    return history.listen((location) => {
+      setQuery("");
+    });
+  }, [history]);
+
+  const onFormSubmit = (event) => {
     event.preventDefault();
 
-    this.props.onSubmit(this.state.query);
+    props.onSubmit(query);
   };
 
-  render() {
-    return (
-      <div className="search">
-        <form onSubmit={this.onFormSubmit}>
-          <label htmlFor="search">
-            <input
-              placeholder="Search movies..."
-              type="text"
-              value={this.state.query}
-              onChange={(e) => this.setState({ query: e.target.value })}
-            />
-          </label>
-        </form>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="search">
+      <form onSubmit={onFormSubmit}>
+        <label htmlFor="search">
+          <input
+            placeholder="Search movies..."
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+        </label>
+      </form>
+    </div>
+  );
+};
 
 export default SearchBar;

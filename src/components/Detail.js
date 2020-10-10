@@ -1,11 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
+import ReactLoading from "react-loading";
 
-import {
-  getMovieDetail,
-  getConfigurationApi,
-  getSimilarMovies,
-} from "../actions";
+import { getMovieDetail, getSimilarMovies } from "../actions";
 import MovieList from "./MovieList";
 
 class Detail extends React.Component {
@@ -36,7 +33,6 @@ class Detail extends React.Component {
   }
 
   componentDidMount() {
-    this.props.getConfigurationApi();
     this.getSimilar();
     this.getDetail();
   }
@@ -74,8 +70,17 @@ class Detail extends React.Component {
           )}
         </div>
       );
+    } else {
+      return (
+        <ReactLoading
+          className="loading"
+          type={"bubbles"}
+          color={"#f5f5f5"}
+          width={"20%"}
+          height={"60%"}
+        />
+      );
     }
-    return "";
   }
 }
 
@@ -89,6 +94,5 @@ const mapStateToProps = ({ movieDetail, configApi, similarMovies }) => {
 
 export default connect(mapStateToProps, {
   getMovieDetail,
-  getConfigurationApi,
   getSimilarMovies,
 })(Detail);

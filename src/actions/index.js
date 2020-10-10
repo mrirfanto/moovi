@@ -53,3 +53,13 @@ export const getMovieGenres = () => async (dispatch) => {
 
   dispatch({ type: "GET_MOVIE_GENRES", payload: response.data.genres });
 };
+
+export const getMovieByGenre = (genreId) => async (dispatch) => {
+  const response = await moviedb.get(`/discover/movie`, {
+    params: {
+      with_genres: genreId,
+    },
+  });
+
+  dispatch({ type: "GET_MOVIE_BY_GENRE", payload: response.data.results });
+};

@@ -29,6 +29,11 @@ const movieGenresReducer = (state = [], action) => {
   else return state;
 };
 
+const moviesGroupedByGenreReducer = (state = [], action) => {
+  if (action.type === "GET_MOVIE_BY_GENRE") return action.payload;
+  else return state;
+};
+
 export default combineReducers({
   movieList: movieListReducer,
   nowPlaying: nowPlayingReducer,
@@ -38,4 +43,5 @@ export default combineReducers({
   movieDetail: movieDetailReducer,
   similarMovies: similarMoviesReducer,
   movieGenres: movieGenresReducer,
+  moviesByGenre: moviesGroupedByGenreReducer,
 });

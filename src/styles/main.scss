@@ -34,8 +34,12 @@ html {
       border-radius: 10px;
       width: 280px;
       color: #f5f5f5;
+      outline: none;
       &::placeholder {
-        color: #f5f5f5;
+        color: #b8b8b8;
+      }
+      &:focus::placeholder {
+        color: transparent;
       }
     }
   }
@@ -180,11 +184,16 @@ html {
     margin: 0;
     li {
       margin: 1em 0;
-      font-size: 1.1em;
+      font-size: 1em;
       cursor: pointer;
       &:hover {
         color: #bfbfbf;
       }
     }
   }
+}
+
+.loading {
+  margin: 0 auto;
+  margin-top: 10em;
 }
