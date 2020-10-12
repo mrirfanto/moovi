@@ -9,6 +9,11 @@ class MovieCard extends React.Component {
     showDetailOverlay: false,
   };
 
+  getImageSource(poster_path) {
+    const { images: { secure_base_url } = {} } = this.props.configApi;
+    return `${secure_base_url}w500${poster_path}`;
+  }
+
   renderOverlayPoster() {
     if (this.state.showDetailOverlay) {
       return (
@@ -21,6 +26,15 @@ class MovieCard extends React.Component {
     } else {
       return "";
     }
+  }
+
+  renderPosterNotFound() {
+    return (
+      <div className="not-found__image">
+        <i className="far fa-image"></i>
+        <p>Oops..Image Not Found</p>
+      </div>
+    );
   }
 
   onSelectMovie = () => {
@@ -38,7 +52,14 @@ class MovieCard extends React.Component {
         onMouseLeave={() => this.setState({ showDetailOverlay: false })}
       >
         <div className="card__poster">
-          <img src={movieImg} alt={movieTitle.toLowerCase().replace("", "-")} />
+          {movieImg == null ? (
+            this.renderPosterNotFound()
+          ) : (
+            <img
+              src={this.getImageSource(movieImg)}
+              alt={movieTitle.toLowerCase().replace("", "-")}
+            />
+          )}
           {this.renderOverlayPoster()}
         </div>
         <h1>{movieTitle}</h1>
@@ -47,9 +68,10 @@ class MovieCard extends React.Component {
   }
 }
 
-const mapStateToProps = ({ selectedMovie }) => {
+const mapStateToProps = ({ selectedMovie, configApi }) => {
   return {
     selectedMovie,
+    configApi,
   };
 };
 

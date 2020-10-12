@@ -15,10 +15,10 @@ class SearchResults extends React.Component {
     const { searchMovieResults, configApi } = this.props;
     return (
       <section>
-        {searchMovieResults.length > 0 ? (
+        {!searchMovieResults.isFetching ? (
           <div>
             <h1 className="section-title">Search Results</h1>
-            <MovieList movies={searchMovieResults} configApi={configApi} />
+            <MovieList movies={searchMovieResults.list} configApi={configApi} />
           </div>
         ) : (
           <ReactLoading

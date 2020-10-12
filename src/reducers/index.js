@@ -15,8 +15,11 @@ const configApiReducer = (state = {}, action) => {
 };
 
 const searchMovieReducer = (state = [], action) => {
-  if (action.type === "SEARCH_MOVIE") return action.payload;
-  else return state;
+  if (action.type === "SEARCH_MOVIE_REQUEST") {
+    return { list: [], isFetching: true };
+  } else if (action.type === "SEARCH_MOVIE_SUCCESS") {
+    return { list: action.payload, isFetching: false };
+  } else return state;
 };
 
 const similarMoviesReducer = (state = [], action) => {
@@ -30,8 +33,11 @@ const movieGenresReducer = (state = [], action) => {
 };
 
 const moviesGroupedByGenreReducer = (state = [], action) => {
-  if (action.type === "GET_MOVIE_BY_GENRE") return action.payload;
-  else return state;
+  if (action.type === "GET_MOVIE_BY_GENRE_REQUEST") {
+    return { list: [], isFetching: true };
+  } else if (action.type === "GET_MOVIE_BY_GENRE_SUCCESS") {
+    return { list: action.payload, isFetching: false };
+  } else return state;
 };
 
 export default combineReducers({

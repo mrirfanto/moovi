@@ -25,6 +25,15 @@ class Detail extends React.Component {
     return `${secure_base_url}w500/${poster_path}`;
   }
 
+  renderPosterNotFound() {
+    return (
+      <div className="not-found__image">
+        <i className="far fa-image"></i>
+        <p>Oops..Image Not Found</p>
+      </div>
+    );
+  }
+
   componentDidUpdate(prevProps) {
     if (this.props.match.params.movieId !== prevProps.match.params.movieId) {
       this.getSimilar();
@@ -37,27 +46,35 @@ class Detail extends React.Component {
     this.getDetail();
   }
   render() {
-    const { movieDetail, configApi, similarMovies } = this.props;
-    if (Object.keys(movieDetail).length > 0) {
+    const {
+      movieDetail: { detail, isFetching },
+      configApi,
+      similarMovies,
+    } = this.props;
+    if (!isFetching) {
       return (
         <div>
           <div className="detail">
-            <img
-              className="detail__poster"
-              src={this.getImageSource(movieDetail.poster_path, configApi)}
-              alt={movieDetail.title.toLowerCase().replace("", "-")}
-            />
+            <div className="detail__poster">
+              {detail.poster_path == null ? (
+                this.renderPosterNotFound()
+              ) : (
+                <img
+                  src={this.getImageSource(detail.poster_path, configApi)}
+                  alt={detail.title.toLowerCase().replace("", "-")}
+                />
+              )}
+            </div>
             <div className="detail__description">
-              <h1 className="title">{movieDetail.title}</h1>
+              <h1 className="title">{detail.title}</h1>
               <div className="info">
-                <div>Rating: {movieDetail.vote_average}</div>
+                <div>Rating: {detail.vote_average}</div>
                 <div>
-                  {movieDetail.runtime} MIN /{" "}
-                  {movieDetail.release_date.split("-")[0]}
+                  {detail.runtime} MIN / {detail.release_date.split("-")[0]}
                 </div>
               </div>
               <h2>SYNOPSIS</h2>
-              <p className="overview">{movieDetail.overview}</p>
+              <p className="overview">{detail.overview}</p>
             </div>
           </div>
           {similarMovies.length > 0 ? (

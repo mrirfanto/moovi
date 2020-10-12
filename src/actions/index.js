@@ -9,19 +9,24 @@ export const selectMovie = (movie) => {
 };
 
 export const getPopularMovies = () => async (dispatch) => {
+  dispatch({ type: "GET_POPULAR_MOVIES_REQUEST" });
   const response = await moviedb.get("/movie/popular");
 
-  dispatch({ type: "GET_POPULAR_MOVIES", payload: response.data.results });
+  dispatch({
+    type: "GET_POPULAR_MOVIES_SUCCESS",
+    payload: response.data.results,
+  });
 };
 
 export const searchMovie = (query) => async (dispatch) => {
+  dispatch({ type: "SEARCH_MOVIE_REQUEST" });
   const response = await moviedb.get("/search/movie", {
     params: {
       query,
     },
   });
 
-  dispatch({ type: "SEARCH_MOVIE", payload: response.data.results });
+  dispatch({ type: "SEARCH_MOVIE_SUCCESS", payload: response.data.results });
 };
 
 export const getNowPlayingMovies = () => async (dispatch) => {
@@ -37,9 +42,10 @@ export const getConfigurationApi = () => async (dispatch) => {
 };
 
 export const getMovieDetail = (movieId) => async (dispatch) => {
+  dispatch({ type: "GET_MOVIE_DETAIL_REQUEST" });
   const response = await moviedb.get(`/movie/${movieId}`);
 
-  dispatch({ type: "GET_MOVIE_DETAIL", payload: response.data });
+  dispatch({ type: "GET_MOVIE_DETAIL_SUCCESS", payload: response.data });
 };
 
 export const getSimilarMovies = (movieId) => async (dispatch) => {
@@ -55,11 +61,15 @@ export const getMovieGenres = () => async (dispatch) => {
 };
 
 export const getMovieByGenre = (genreId) => async (dispatch) => {
+  dispatch({ type: "GET_MOVIE_BY_GENRE_REQUEST" });
   const response = await moviedb.get(`/discover/movie`, {
     params: {
       with_genres: genreId,
     },
   });
 
-  dispatch({ type: "GET_MOVIE_BY_GENRE", payload: response.data.results });
+  dispatch({
+    type: "GET_MOVIE_BY_GENRE_SUCCESS",
+    payload: response.data.results,
+  });
 };

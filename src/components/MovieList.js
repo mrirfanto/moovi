@@ -1,27 +1,32 @@
 import React, { Component } from "react";
+import ReactLoading from "react-loading";
+
 import MovieCard from "./MovieCard";
 
 class MovieList extends Component {
-  getImageSource(poster_path, configApi) {
-    const { images: { secure_base_url } = {} } = configApi;
-    return `${secure_base_url}w500/${poster_path}`;
-  }
-
   renderMovieCards() {
-    if (!this.props.movies) return "";
-    return this.props.movies.map((movie) => {
+    if (!this.props.movies)
       return (
-        <MovieCard
-          key={movie.id}
-          movieId={movie.id}
-          movieTitle={movie.title}
-          movieImg={this.getImageSource(
-            movie.poster_path,
-            this.props.configApi
-          )}
+        <ReactLoading
+          className="loading"
+          type={"bubbles"}
+          color={"#f5f5f5"}
+          width={"20%"}
+          height={"60%"}
         />
       );
-    });
+    else {
+      return this.props.movies.map((movie) => {
+        return (
+          <MovieCard
+            key={movie.id}
+            movieId={movie.id}
+            movieTitle={movie.title}
+            movieImg={movie.poster_path}
+          />
+        );
+      });
+    }
   }
 
   render() {

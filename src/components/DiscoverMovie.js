@@ -7,14 +7,17 @@ import MovieList from "./MovieList";
 
 class DiscoverMovie extends React.Component {
   render() {
-    const { moviesByGenre, configApi } = this.props;
+    const {
+      moviesByGenre: { list, isFetching },
+      configApi,
+    } = this.props;
     const { genre } = this.props.match.params;
     return (
       <section>
-        {moviesByGenre.length > 0 ? (
+        {!isFetching ? (
           <div>
             <h1 className="section-title">{`${genre} movies`}</h1>
-            <MovieList movies={moviesByGenre} configApi={configApi} />
+            <MovieList movies={list} configApi={configApi} />
           </div>
         ) : (
           <ReactLoading

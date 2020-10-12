@@ -35,6 +35,7 @@ const Sidebar = (props) => {
       className="sidebar"
       style={{
         transform: showSidebar ? "translateX(0)" : "translate(-300px)",
+        transition: "all .4s ease-in-out",
       }}
     >
       <button
