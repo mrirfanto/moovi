@@ -1,46 +1,38 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import ReactLoading from "react-loading";
 
 import MovieList from "./MovieList";
-import { getPopularMovies } from "../actions";
+import { getPopularMovies } from "../actions/movieActions";
 
-class Home extends React.Component {
-  componentDidMount() {
-    this.props.getPopularMovies();
-  }
+const Home = () => {
+  const dispatch = useDispatch();
+  const popularMovies = useSelector((state) => state.popularMovies);
+  const { movies, loading, error } = popularMovies;
+  useEffect(() => {
+    dispatch(getPopularMovies());
+  }, [dispatch]);
 
-  render() {
-    const {
-      movieList: { list, isFetching },
-    } = this.props;
-    return (
-      <section>
-        {!isFetching ? (
-          <div>
-            <h1 className="section-title">Popular Movies</h1>
-            <MovieList movies={list} />
-          </div>
-        ) : (
-          <ReactLoading
-            className="loading"
-            type={"bubbles"}
-            color={"#f5f5f5"}
-            width={"20%"}
-            height={"60%"}
-          />
-        )}
-      </section>
-    );
-  }
-}
-
-const mapStateToProps = ({ movieList }) => {
-  return {
-    movieList,
-  };
+  return (
+    <section>
+      {loading ? (
+        <ReactLoading
+          className="loading"
+          type={"bubbles"}
+          color={"#f5f5f5"}
+          width={"20%"}
+          height={"60%"}
+        />
+      ) : error ? (
+        <h1>{error}</h1>
+      ) : (
+        <div>
+          <h1 className="section-title">Popular Movies</h1>
+          <MovieList movies={movies} />
+        </div>
+      )}
+    </section>
+  );
 };
 
-export default connect(mapStateToProps, {
-  getPopularMovies,
-})(Home);
+export default Home;

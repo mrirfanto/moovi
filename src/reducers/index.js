@@ -2,7 +2,13 @@
 import { combineReducers } from "redux";
 import movieListReducer from "./movieListReducer";
 import nowPlayingReducer from "./nowPlayingReducer";
-import movieDetailReducer from "./movieDetailReducer";
+import {
+  popularMoviesReducer,
+  searchMovieReducer,
+  movieGenresReducer,
+  similarMoviesReducer,
+  movieDetailsReducer,
+} from "./movieReducers";
 
 const selectedMovieReducer = (selectedMovie = null, action) => {
   if (action.type === "MOVIE_SELECTED") return action.payload;
@@ -11,24 +17,6 @@ const selectedMovieReducer = (selectedMovie = null, action) => {
 
 const configApiReducer = (state = {}, action) => {
   if (action.type === "GET_CONFIG_API") return action.payload;
-  else return state;
-};
-
-const searchMovieReducer = (state = [], action) => {
-  if (action.type === "SEARCH_MOVIE_REQUEST") {
-    return { list: [], isFetching: true };
-  } else if (action.type === "SEARCH_MOVIE_SUCCESS") {
-    return { list: action.payload, isFetching: false };
-  } else return state;
-};
-
-const similarMoviesReducer = (state = [], action) => {
-  if (action.type === "GET_SIMILAR_MOVIES") return action.payload;
-  else return state;
-};
-
-const movieGenresReducer = (state = [], action) => {
-  if (action.type === "GET_MOVIE_GENRES") return action.payload;
   else return state;
 };
 
@@ -46,8 +34,9 @@ export default combineReducers({
   configApi: configApiReducer,
   searchMovieResults: searchMovieReducer,
   selectedMovie: selectedMovieReducer,
-  movieDetail: movieDetailReducer,
+  movieDetails: movieDetailsReducer,
   similarMovies: similarMoviesReducer,
   movieGenres: movieGenresReducer,
+  popularMovies: popularMoviesReducer,
   moviesByGenre: moviesGroupedByGenreReducer,
 });

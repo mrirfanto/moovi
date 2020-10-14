@@ -8,16 +8,6 @@ export const selectMovie = (movie) => {
   };
 };
 
-export const getPopularMovies = () => async (dispatch) => {
-  dispatch({ type: "GET_POPULAR_MOVIES_REQUEST" });
-  const response = await moviedb.get("/movie/popular");
-
-  dispatch({
-    type: "GET_POPULAR_MOVIES_SUCCESS",
-    payload: response.data.results,
-  });
-};
-
 export const searchMovie = (query) => async (dispatch) => {
   dispatch({ type: "SEARCH_MOVIE_REQUEST" });
   const response = await moviedb.get("/search/movie", {

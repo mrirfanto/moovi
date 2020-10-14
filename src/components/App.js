@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { getConfigurationApi, getMovieGenres } from "../actions";
+import { getConfigurationApi } from "../actions";
+import { getMovieGenres } from "../actions/movieActions";
 
 import "../styles/main.scss";
 import Home from "./Home";
@@ -12,33 +13,30 @@ import SearchResults from "./SearchResults";
 import Sidebar from "./Sidebar";
 import DiscoverMovie from "./DiscoverMovie";
 
-class App extends React.Component {
-  componentDidMount() {
-    this.props.getConfigurationApi();
-    this.props.getMovieGenres();
-  }
+const App = () => {
+  const dispatch = useDispatch();
 
-  render() {
-    return (
-      <div>
-        <BrowserRouter>
-          <Header />
-          <aside>
-            <Sidebar />
-          </aside>
-          <main className="container main">
-            <Route path="/" exact component={Home} />
-            <Route path="/detail/:movieId" component={Detail} />
-            <Route path="/search/:query" component={SearchResults} />
-            <Route path="/discover/:genre" component={DiscoverMovie} />
-          </main>
-        </BrowserRouter>
-      </div>
-    );
-  }
-}
+  useEffect(() => {
+    dispatch(getMovieGenres());
+    dispatch(getConfigurationApi());
+  }, [dispatch]);
 
-export default connect(null, {
-  getConfigurationApi,
-  getMovieGenres,
-})(App);
+  return (
+    <div>
+      <BrowserRouter>
+        <Header />
+        <aside>
+          <Sidebar />
+        </aside>
+        <main className="container main">
+          <Route path="/" exact component={Home} />
+          <Route path="/detail/:movieId" component={Detail} />
+          <Route path="/search/:query" component={SearchResults} />
+          <Route path="/discover/:genre" component={DiscoverMovie} />
+        </main>
+      </BrowserRouter>
+    </div>
+  );
+};
+
+export default App;

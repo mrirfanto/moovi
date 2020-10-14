@@ -1,34 +1,30 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import ReactLoading from "react-loading";
 
 import { getMovieByGenre } from "../actions";
 
 const Sidebar = (props) => {
   const history = useHistory();
   const [showSidebar, setShowSideBar] = useState(false);
+  const movieGenres = useSelector((state) => state.movieGenres);
+  const { loading, genres, error } = movieGenres;
 
   const onSelectGenre = (genreId, genreName) => {
     props.getMovieByGenre(genreId);
     history.push(`/discover/${genreName}`);
   };
 
-  const renderGenreList = (genres) => {
-    if (genres.length > 0) {
-      return genres.map((genre) => {
-        return (
-          <li
-            key={genre.id}
-            onClick={() => onSelectGenre(genre.id, genre.name)}
-          >
-            {genre.name}
-          </li>
-        );
-      });
-    }
-    return "";
+  const renderGenreList = () => {
+    return genres.map((genre) => {
+      return (
+        <li key={genre.id} onClick={() => onSelectGenre(genre.id, genre.name)}>
+          {genre.name}
+        </li>
+      );
+    });
   };
-  const { movieGenres } = props;
 
   return (
     <div
@@ -47,17 +43,23 @@ const Sidebar = (props) => {
         <i className="fas fa-bars"></i>
       </button>
       <h1 className="section-title">Categories</h1>
-      <ul>{renderGenreList(movieGenres)}</ul>
+      {loading ? (
+        <ReactLoading
+          className="loading"
+          type={"bubbles"}
+          color={"#f5f5f5"}
+          width={"20%"}
+          height={"60%"}
+        />
+      ) : error ? (
+        <h1>{error}</h1>
+      ) : (
+        <ul>{renderGenreList()}</ul>
+      )}
     </div>
   );
 };
 
-const mapStateToProps = ({ movieGenres }) => {
-  return {
-    movieGenres,
-  };
-};
-
-export default connect(mapStateToProps, {
+export default connect(null, {
   getMovieByGenre,
 })(Sidebar);
