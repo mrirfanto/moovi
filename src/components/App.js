@@ -6,12 +6,13 @@ import { getConfigurationApi } from "../actions";
 import { getMovieGenres } from "../actions/movieActions";
 
 import "../styles/main.scss";
-import Home from "./Home";
-import Detail from "./Detail";
+import Home from "../pages/Home";
+import Detail from "../pages/Detail";
+import SearchResults from "../pages/SearchResults";
+import DiscoverMovie from "../pages/DiscoverMovie";
+
 import Header from "./Header";
-import SearchResults from "./SearchResults";
 import Sidebar from "./Sidebar";
-import DiscoverMovie from "./DiscoverMovie";
 
 const App = () => {
   const dispatch = useDispatch();

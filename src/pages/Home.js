@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ReactLoading from "react-loading";
 
-import MovieList from "./MovieList";
+import MovieList from "../components/MovieList";
 import { getPopularMovies } from "../actions/movieActions";
 
 const Home = () => {

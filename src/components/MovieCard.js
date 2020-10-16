@@ -1,24 +1,23 @@
-import React from "react";
-import { connect } from "react-redux";
+import React, { useState } from "react";
+import { connect, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
-import { selectMovie } from "../actions";
+import { selectMovie } from "../actions/movieActions";
 
-class MovieCard extends React.Component {
-  state = {
-    showDetailOverlay: false,
+const MovieCard = ({ movieId, movieImg, movieTitle, configApi }) => {
+  const [showDetailOverlay, setShowDetailOverlay] = useState(false);
+  const dispatch = useDispatch();
+
+  const getImageSource = (poster_path) => {
+    const { images: { secure_base_url } = {} } = configApi;
+    return `${secure_base_url}w500${poster_path}`;
   };
 
-  getImageSource(poster_path) {
-    const { images: { secure_base_url } = {} } = this.props.configApi;
-    return `${secure_base_url}w500${poster_path}`;
-  }
-
-  renderOverlayPoster() {
-    if (this.state.showDetailOverlay) {
+  const renderOverlayPoster = () => {
+    if (showDetailOverlay) {
       return (
         <div className="card__poster__overlay">
-          <Link to={`/detail/${this.props.movieId}`} replace>
+          <Link to={`/detail/${movieId}`} replace>
             <button className="btn">DETAILS</button>
           </Link>
         </div>
@@ -26,51 +25,46 @@ class MovieCard extends React.Component {
     } else {
       return "";
     }
-  }
+  };
 
-  renderPosterNotFound() {
+  const renderPosterNotFound = () => {
     return (
       <div className="not-found__image">
         <i className="far fa-image"></i>
         <p>Oops..Image Not Found</p>
       </div>
     );
-  }
-
-  onSelectMovie = () => {
-    const { movieId } = this.props;
-    this.props.selectMovie(movieId);
   };
 
-  render() {
-    const { movieImg, movieTitle } = this.props;
-    return (
-      <div
-        onClick={this.onSelectMovie}
-        className="card"
-        onMouseEnter={() => this.setState({ showDetailOverlay: true })}
-        onMouseLeave={() => this.setState({ showDetailOverlay: false })}
-      >
-        <div className="card__poster">
-          {movieImg == null ? (
-            this.renderPosterNotFound()
-          ) : (
-            <img
-              src={this.getImageSource(movieImg)}
-              alt={movieTitle.toLowerCase().replace("", "-")}
-            />
-          )}
-          {this.renderOverlayPoster()}
-        </div>
-        <h1>{movieTitle}</h1>
-      </div>
-    );
-  }
-}
+  const onSelectMovie = () => {
+    dispatch(selectMovie(movieId));
+  };
 
-const mapStateToProps = ({ selectedMovie, configApi }) => {
+  return (
+    <div
+      onClick={onSelectMovie}
+      className="card"
+      onMouseEnter={() => setShowDetailOverlay(true)}
+      onMouseLeave={() => setShowDetailOverlay(false)}
+    >
+      <div className="card__poster">
+        {movieImg == null ? (
+          renderPosterNotFound()
+        ) : (
+          <img
+            src={getImageSource(movieImg)}
+            alt={movieTitle.toLowerCase().replace("", "-")}
+          />
+        )}
+        {renderOverlayPoster()}
+      </div>
+      <h1>{movieTitle}</h1>
+    </div>
+  );
+};
+
+const mapStateToProps = ({ configApi }) => {
   return {
-    selectedMovie,
     configApi,
   };
 };

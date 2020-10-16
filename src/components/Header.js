@@ -1,15 +1,16 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 
 import SearchBar from "./SearchBar";
-import { searchMovie } from "../actions";
+import { searchMovie } from "../actions/movieActions";
 
-const Header = (props) => {
+const Header = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const onSearchSubmit = (query) => {
-    props.searchMovie(query);
+    dispatch(searchMovie(query));
     history.push(`/search/${query}`);
   };
 
@@ -23,6 +24,4 @@ const Header = (props) => {
   );
 };
 
-export default connect(null, {
-  searchMovie,
-})(Header);
+export default Header;

@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import { connect, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import ReactLoading from "react-loading";
 
-import { getMovieByGenre } from "../actions";
+import { getMovieByGenre } from "../actions/movieActions";
 
-const Sidebar = (props) => {
+const Sidebar = () => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const [showSidebar, setShowSideBar] = useState(false);
   const movieGenres = useSelector((state) => state.movieGenres);
   const { loading, genres, error } = movieGenres;
 
   const onSelectGenre = (genreId, genreName) => {
-    props.getMovieByGenre(genreId);
+    dispatch(getMovieByGenre(genreId));
     history.push(`/discover/${genreName}`);
   };
 
@@ -60,6 +61,4 @@ const Sidebar = (props) => {
   );
 };
 
-export default connect(null, {
-  getMovieByGenre,
-})(Sidebar);
+export default Sidebar;

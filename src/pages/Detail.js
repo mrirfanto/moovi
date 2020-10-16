@@ -4,13 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import ReactLoading from "react-loading";
 
 import { getMovieDetails, getSimilarMovies } from "../actions/movieActions";
-import MovieList from "./MovieList";
+
+import MovieList from "../components/MovieList";
 
 const Detail = ({ match, configApi }) => {
   const dispatch = useDispatch();
   const movieDetails = useSelector((state) => state.movieDetails);
   const { loading: loadingDetail, detail, error: errorDetail } = movieDetails;
-  console.log(detail);
   const similarMovies = useSelector((state) => state.similarMovies);
   const {
     loading: loadingSimilar,
@@ -87,11 +87,13 @@ const Detail = ({ match, configApi }) => {
         />
       ) : errorSimilar ? (
         <h1>{errorSimilar}</h1>
-      ) : (
+      ) : movies.length > 0 ? (
         <>
           <h1 className="section-title">Similar Movies</h1>
           <MovieList movies={movies.splice(0, 10)} configApi={configApi} />
         </>
+      ) : (
+        ""
       )}
     </>
   );

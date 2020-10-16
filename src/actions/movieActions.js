@@ -15,6 +15,10 @@ import {
   MOVIE_DETAILS_REQUEST,
   MOVIE_DETAILS_SUCCESS,
   MOVIE_DETAILS_FAILED,
+  SELECT_MOVIE,
+  MOVIES_BY_GENRE_REQUEST,
+  MOVIES_BY_GENRE_SUCCESS,
+  MOVIES_BY_GENRE_FAILED,
 } from "../constants/movieConstants";
 
 export const getPopularMovies = () => async (dispatch) => {
@@ -103,7 +107,6 @@ export const getMovieDetails = (movieId) => async (dispatch) => {
     dispatch({ type: MOVIE_DETAILS_REQUEST });
 
     const { data } = await moviedb.get(`/movie/${movieId}`);
-    console.log(data);
     dispatch({
       type: MOVIE_DETAILS_SUCCESS,
       payload: data,
@@ -111,6 +114,36 @@ export const getMovieDetails = (movieId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: MOVIE_DETAILS_FAILED,
+      payload: error.message,
+    });
+  }
+};
+
+export const selectMovie = (movie) => {
+  return {
+    type: SELECT_MOVIE,
+    payload: movie,
+  };
+};
+
+export const getMovieByGenre = (genreId) => async (dispatch) => {
+  try {
+    dispatch({ type: MOVIES_BY_GENRE_REQUEST });
+    const {
+      data: { results },
+    } = await moviedb.get(`/discover/movie`, {
+      params: {
+        with_genres: genreId,
+      },
+    });
+
+    dispatch({
+      type: MOVIES_BY_GENRE_SUCCESS,
+      payload: results,
+    });
+  } catch (error) {
+    dispatch({
+      type: MOVIES_BY_GENRE_FAILED,
       payload: error.message,
     });
   }

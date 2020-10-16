@@ -14,6 +14,10 @@ import {
   MOVIE_DETAILS_REQUEST,
   MOVIE_DETAILS_SUCCESS,
   MOVIE_DETAILS_FAILED,
+  SELECT_MOVIE,
+  MOVIES_BY_GENRE_REQUEST,
+  MOVIES_BY_GENRE_SUCCESS,
+  MOVIES_BY_GENRE_FAILED,
 } from "../constants/movieConstants";
 
 export const popularMoviesReducer = (state = {}, action) => {
@@ -78,6 +82,24 @@ export const movieDetailsReducer = (
     case MOVIE_DETAILS_SUCCESS:
       return { ...state, loading: false, detail: action.payload };
     case MOVIE_DETAILS_FAILED:
+      return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const selectMovieReducer = (selectedMovie = null, action) => {
+  if (action.type === SELECT_MOVIE) return action.payload;
+  else return selectedMovie;
+};
+
+export const moviesByGenreReducer = (state = { movies: [] }, action) => {
+  switch (action.type) {
+    case MOVIES_BY_GENRE_REQUEST:
+      return { ...state, loading: true, movies: [] };
+    case MOVIES_BY_GENRE_SUCCESS:
+      return { ...state, loading: false, movies: action.payload };
+    case MOVIES_BY_GENRE_FAILED:
       return { ...state, loading: false, error: action.payload };
     default:
       return state;
