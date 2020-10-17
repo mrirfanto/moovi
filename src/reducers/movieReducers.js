@@ -18,6 +18,12 @@ import {
   MOVIES_BY_GENRE_REQUEST,
   MOVIES_BY_GENRE_SUCCESS,
   MOVIES_BY_GENRE_FAILED,
+  NOW_PLAYING_MOVIES_REQUEST,
+  NOW_PLAYING_MOVIES_SUCCESS,
+  NOW_PLAYING_MOVIES_FAILED,
+  TOP_RATED_MOVIES_REQUEST,
+  TOP_RATED_MOVIES_SUCCESS,
+  TOP_RATED_MOVIES_FAILED,
 } from "../constants/movieConstants";
 
 export const popularMoviesReducer = (state = {}, action) => {
@@ -100,6 +106,32 @@ export const moviesByGenreReducer = (state = { movies: [] }, action) => {
     case MOVIES_BY_GENRE_SUCCESS:
       return { ...state, loading: false, movies: action.payload };
     case MOVIES_BY_GENRE_FAILED:
+      return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const nowPlayingReducer = (state = { movies: [] }, action) => {
+  switch (action.type) {
+    case NOW_PLAYING_MOVIES_REQUEST:
+      return { ...state, loading: true, movies: [] };
+    case NOW_PLAYING_MOVIES_SUCCESS:
+      return { ...state, loading: false, movies: action.payload };
+    case NOW_PLAYING_MOVIES_FAILED:
+      return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const topRatedReducer = (state = { movies: [] }, action) => {
+  switch (action.type) {
+    case TOP_RATED_MOVIES_REQUEST:
+      return { ...state, loading: true, movies: [] };
+    case TOP_RATED_MOVIES_SUCCESS:
+      return { ...state, loading: false, movies: action.payload };
+    case TOP_RATED_MOVIES_FAILED:
       return { ...state, loading: false, error: action.payload };
     default:
       return state;

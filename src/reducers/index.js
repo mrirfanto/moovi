@@ -1,6 +1,5 @@
 // REDUCERS
 import { combineReducers } from "redux";
-import nowPlayingReducer from "./nowPlayingReducer";
 import {
   popularMoviesReducer,
   searchMovieReducer,
@@ -9,6 +8,8 @@ import {
   movieDetailsReducer,
   selectMovieReducer,
   moviesByGenreReducer,
+  nowPlayingReducer,
+  topRatedReducer,
 } from "./movieReducers";
 
 const configApiReducer = (state = {}, action) => {
@@ -18,6 +19,7 @@ const configApiReducer = (state = {}, action) => {
 
 export default combineReducers({
   nowPlaying: nowPlayingReducer,
+  topRated: topRatedReducer,
   configApi: configApiReducer,
   searchMovieResults: searchMovieReducer,
   selectedMovie: selectMovieReducer,

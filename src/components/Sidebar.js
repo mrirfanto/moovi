@@ -3,7 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import ReactLoading from "react-loading";
 
-import { getMovieByGenre } from "../actions/movieActions";
+import {
+  getMovieByGenre,
+  getNowPlayingMovies,
+  getTopRatedMovies,
+} from "../actions/movieActions";
 
 const Sidebar = () => {
   const history = useHistory();
@@ -15,6 +19,16 @@ const Sidebar = () => {
   const onSelectGenre = (genreId, genreName) => {
     dispatch(getMovieByGenre(genreId));
     history.push(`/discover/${genreName}`);
+  };
+
+  const onSelectNowPlaying = () => {
+    dispatch(getNowPlayingMovies());
+    history.push(`/discover/Now Playing`);
+  };
+
+  const onSelectTopRated = () => {
+    dispatch(getTopRatedMovies());
+    history.push(`/discover/Top Rated`);
   };
 
   const renderGenreList = () => {
@@ -43,7 +57,13 @@ const Sidebar = () => {
       >
         <i className="fas fa-bars"></i>
       </button>
-      <h1 className="section-title">Categories</h1>
+      <h1 className="section-title">Discover</h1>
+      <ul>
+        <li>Popular</li>
+        <li onClick={onSelectTopRated}>Top Rated</li>
+        <li onClick={onSelectNowPlaying}>Now Playing</li>
+      </ul>
+      <h1 className="section-title">Genres</h1>
       {loading ? (
         <ReactLoading
           className="loading"

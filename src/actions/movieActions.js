@@ -19,6 +19,12 @@ import {
   MOVIES_BY_GENRE_REQUEST,
   MOVIES_BY_GENRE_SUCCESS,
   MOVIES_BY_GENRE_FAILED,
+  NOW_PLAYING_MOVIES_REQUEST,
+  NOW_PLAYING_MOVIES_SUCCESS,
+  NOW_PLAYING_MOVIES_FAILED,
+  TOP_RATED_MOVIES_REQUEST,
+  TOP_RATED_MOVIES_SUCCESS,
+  TOP_RATED_MOVIES_FAILED,
 } from "../constants/movieConstants";
 
 export const getPopularMovies = () => async (dispatch) => {
@@ -144,6 +150,44 @@ export const getMovieByGenre = (genreId) => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: MOVIES_BY_GENRE_FAILED,
+      payload: error.message,
+    });
+  }
+};
+
+export const getNowPlayingMovies = () => async (dispatch) => {
+  try {
+    dispatch({ type: NOW_PLAYING_MOVIES_REQUEST });
+    const {
+      data: { results },
+    } = await moviedb.get(`/movie/now_playing`);
+
+    dispatch({
+      type: NOW_PLAYING_MOVIES_SUCCESS,
+      payload: results,
+    });
+  } catch (error) {
+    dispatch({
+      type: NOW_PLAYING_MOVIES_FAILED,
+      payload: error.message,
+    });
+  }
+};
+
+export const getTopRatedMovies = () => async (dispatch) => {
+  try {
+    dispatch({ type: TOP_RATED_MOVIES_REQUEST });
+    const {
+      data: { results },
+    } = await moviedb.get(`/movie/top_rated`);
+
+    dispatch({
+      type: TOP_RATED_MOVIES_SUCCESS,
+      payload: results,
+    });
+  } catch (error) {
+    dispatch({
+      type: TOP_RATED_MOVIES_FAILED,
       payload: error.message,
     });
   }

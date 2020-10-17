@@ -33,7 +33,7 @@ const App = () => {
           <Route path="/" exact component={Home} />
           <Route path="/detail/:movieId" component={Detail} />
           <Route path="/search/:query" component={SearchResults} />
-          <Route path="/discover/:genre" component={DiscoverMovie} />
+          <Route path="/discover/:type" component={DiscoverMovie} />
         </main>
       </BrowserRouter>
     </div>
