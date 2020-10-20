@@ -25,6 +25,9 @@ import {
   TOP_RATED_MOVIES_REQUEST,
   TOP_RATED_MOVIES_SUCCESS,
   TOP_RATED_MOVIES_FAILED,
+  MOVIE_CREDITS_REQUEST,
+  MOVIE_CREDITS_SUCCESS,
+  MOVIE_CREDITS_FAILED,
 } from "../constants/movieConstants";
 
 export const getPopularMovies = () => async (dispatch) => {
@@ -188,6 +191,25 @@ export const getTopRatedMovies = () => async (dispatch) => {
   } catch (error) {
     dispatch({
       type: TOP_RATED_MOVIES_FAILED,
+      payload: error.message,
+    });
+  }
+};
+
+export const getMovieCredits = (movieId) => async (dispatch) => {
+  try {
+    dispatch({ type: MOVIE_CREDITS_REQUEST });
+    const {
+      data: { cast, crew },
+    } = await moviedb.get(`/movie/${movieId}/credits`);
+
+    dispatch({
+      type: MOVIE_CREDITS_SUCCESS,
+      payload: { cast, crew },
+    });
+  } catch (error) {
+    dispatch({
+      type: MOVIE_CREDITS_FAILED,
       payload: error.message,
     });
   }

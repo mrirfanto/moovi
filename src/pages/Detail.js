@@ -3,7 +3,11 @@ import { connect } from "react-redux";
 import { useDispatch, useSelector } from "react-redux";
 import ReactLoading from "react-loading";
 
-import { getMovieDetails, getSimilarMovies } from "../actions/movieActions";
+import {
+  getMovieDetails,
+  getSimilarMovies,
+  getMovieCredits,
+} from "../actions/movieActions";
 
 import MovieList from "../components/MovieList";
 
@@ -17,19 +21,46 @@ const Detail = ({ match, configApi }) => {
     movies,
     error: errorSimilar,
   } = similarMovies;
+  const movieCredits = useSelector((state) => state.movieCredits);
+  const { credits } = movieCredits;
 
-  const getImageSource = (poster_path, configApi) => {
+  const getImageSource = (poster_path, configApi, size) => {
     const { images: { secure_base_url } = {} } = configApi;
-    return `${secure_base_url}w500/${poster_path}`;
+    return `${secure_base_url}${size}/${poster_path}`;
+  };
+
+  const renderCast = () => {
+    return credits.cast.map((c) => {
+      return c.profile_path == null ? (
+        <div className="not-found__profile" key={c.cast_id}>
+          <i className="fas fa-user-circle"></i>
+        </div>
+      ) : (
+        <img
+          key={c.cast_id}
+          src={getImageSource(c.profile_path, configApi, "w185")}
+          alt={c.name.toLowerCase().replace("", "-")}
+        />
+      );
+    });
   };
 
   const renderPosterNotFound = () => {
     return (
-      <div className="not-found__image">
+      <div className="not-found__poster">
         <i className="far fa-image"></i>
         <p>Oops..Image Not Found</p>
       </div>
     );
+  };
+
+  const moveCastSlider = (type) => {
+    const element = document.getElementsByClassName("cast__list");
+    if (type === "right") {
+      element[0].scrollLeft += 70;
+    } else {
+      element[0].scrollLeft -= 70;
+    }
   };
 
   useEffect(() => {
@@ -38,6 +69,7 @@ const Detail = ({ match, configApi }) => {
     } = match;
     dispatch(getMovieDetails(movieId));
     dispatch(getSimilarMovies(movieId));
+    dispatch(getMovieCredits(movieId));
   }, [dispatch, match]);
 
   return (
@@ -59,7 +91,7 @@ const Detail = ({ match, configApi }) => {
               renderPosterNotFound()
             ) : (
               <img
-                src={getImageSource(detail.poster_path, configApi)}
+                src={getImageSource(detail.poster_path, configApi, "w500")}
                 alt={detail.title.toLowerCase().replace("", "-")}
               />
             )}
@@ -74,6 +106,18 @@ const Detail = ({ match, configApi }) => {
             </div>
             <h2>SYNOPSIS</h2>
             <p className="overview">{detail.overview}</p>
+            <h2>CAST</h2>
+            <div className="cast">
+              <i
+                className="fas fa-chevron-left"
+                onClick={() => moveCastSlider("left")}
+              ></i>
+              <div className="cast__list">{renderCast()}</div>
+              <i
+                className="fas fa-chevron-right"
+                onClick={() => moveCastSlider("right")}
+              ></i>
+            </div>
           </div>
         </div>
       )}

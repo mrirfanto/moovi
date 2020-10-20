@@ -29,7 +29,7 @@ const MovieCard = ({ movieId, movieImg, movieTitle, configApi }) => {
 
   const renderPosterNotFound = () => {
     return (
-      <div className="not-found__image">
+      <div className="not-found__poster">
         <i className="far fa-image"></i>
         <p>Oops..Image Not Found</p>
       </div>

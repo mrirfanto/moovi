@@ -10,6 +10,7 @@ import {
   moviesByGenreReducer,
   nowPlayingReducer,
   topRatedReducer,
+  movieCreditsReducer,
 } from "./movieReducers";
 
 const configApiReducer = (state = {}, action) => {
@@ -28,4 +29,5 @@ export default combineReducers({
   movieGenres: movieGenresReducer,
   popularMovies: popularMoviesReducer,
   moviesByGenre: moviesByGenreReducer,
+  movieCredits: movieCreditsReducer,
 });

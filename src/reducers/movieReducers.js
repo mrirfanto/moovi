@@ -24,6 +24,9 @@ import {
   TOP_RATED_MOVIES_REQUEST,
   TOP_RATED_MOVIES_SUCCESS,
   TOP_RATED_MOVIES_FAILED,
+  MOVIE_CREDITS_REQUEST,
+  MOVIE_CREDITS_SUCCESS,
+  MOVIE_CREDITS_FAILED,
 } from "../constants/movieConstants";
 
 export const popularMoviesReducer = (state = {}, action) => {
@@ -132,6 +135,22 @@ export const topRatedReducer = (state = { movies: [] }, action) => {
     case TOP_RATED_MOVIES_SUCCESS:
       return { ...state, loading: false, movies: action.payload };
     case TOP_RATED_MOVIES_FAILED:
+      return { ...state, loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const movieCreditsReducer = (
+  state = { credits: { cast: [], crew: [] } },
+  action
+) => {
+  switch (action.type) {
+    case MOVIE_CREDITS_REQUEST:
+      return { ...state, loading: true };
+    case MOVIE_CREDITS_SUCCESS:
+      return { ...state, loading: false, credits: action.payload };
+    case MOVIE_CREDITS_FAILED:
       return { ...state, loading: false, error: action.payload };
     default:
       return state;
