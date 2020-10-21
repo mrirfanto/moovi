@@ -157,8 +157,13 @@ html {
     }
     .info {
       display: flex;
-      :first-child {
-        width: 120px;
+      > :last-child {
+        margin-left: 25em;
+      }
+      .rating {
+        &__value {
+          margin-left: 1em;
+        }
       }
     }
     .overview {

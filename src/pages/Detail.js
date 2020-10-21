@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { useDispatch, useSelector } from "react-redux";
 import ReactLoading from "react-loading";
@@ -10,6 +10,7 @@ import {
 } from "../actions/movieActions";
 
 import MovieList from "../components/MovieList";
+import Rating from "../components/Rating";
 
 const Detail = ({ match, configApi }) => {
   const dispatch = useDispatch();
@@ -23,6 +24,8 @@ const Detail = ({ match, configApi }) => {
   } = similarMovies;
   const movieCredits = useSelector((state) => state.movieCredits);
   const { credits } = movieCredits;
+  const [slider, setSlider] = useState(0);
+  const [sliderMax, setSliderMax] = useState(false);
 
   const getImageSource = (poster_path, configApi, size) => {
     const { images: { secure_base_url } = {} } = configApi;
@@ -61,6 +64,10 @@ const Detail = ({ match, configApi }) => {
     } else {
       element[0].scrollLeft -= 70;
     }
+    setSliderMax(
+      element[0].scrollLeft + element[0].clientWidth === element[0].scrollWidth
+    );
+    setSlider(element[0].scrollLeft);
   };
 
   useEffect(() => {
@@ -99,7 +106,10 @@ const Detail = ({ match, configApi }) => {
           <div className="detail__description">
             <h1 className="title">{detail.title}</h1>
             <div className="info">
-              <div>Rating: {detail.vote_average}</div>
+              <Rating
+                rating={detail.vote_average}
+                voteCount={detail.vote_count}
+              />
               <div>
                 {detail.runtime} MIN / {detail.release_date.split("-")[0]}
               </div>
@@ -108,15 +118,23 @@ const Detail = ({ match, configApi }) => {
             <p className="overview">{detail.overview}</p>
             <h2>CAST</h2>
             <div className="cast">
-              <i
-                className="fas fa-chevron-left"
-                onClick={() => moveCastSlider("left")}
-              ></i>
+              {slider > 0 ? (
+                <i
+                  className="fas fa-chevron-left"
+                  onClick={() => moveCastSlider("left")}
+                ></i>
+              ) : (
+                ""
+              )}
               <div className="cast__list">{renderCast()}</div>
-              <i
-                className="fas fa-chevron-right"
-                onClick={() => moveCastSlider("right")}
-              ></i>
+              {credits.cast.length > 7 && !sliderMax ? (
+                <i
+                  className="fas fa-chevron-right"
+                  onClick={() => moveCastSlider("right")}
+                ></i>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>
