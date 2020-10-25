@@ -9,27 +9,52 @@ import {
   getMovieCredits,
 } from "../actions/movieActions";
 
+import { getMovieTrailer, RESET_STATE } from "../actions/youtubeActions";
+
 import MovieList from "../components/MovieList";
 import Rating from "../components/Rating";
+import Modal from "../components/Modal";
 
 const Detail = ({ match, configApi }) => {
   const dispatch = useDispatch();
-  const movieDetails = useSelector((state) => state.movieDetails);
-  const { loading: loadingDetail, detail, error: errorDetail } = movieDetails;
-  const similarMovies = useSelector((state) => state.similarMovies);
+  const { loading: loadingDetail, detail, error: errorDetail } = useSelector(
+    (state) => state.movieDetails
+  );
+  const { loading: loadingSimilar, movies, error: errorSimilar } = useSelector(
+    (state) => state.similarMovies
+  );
+  const { credits } = useSelector((state) => state.movieCredits);
+  const { items } = useSelector((state) => state.movieTrailer);
   const {
-    loading: loadingSimilar,
-    movies,
-    error: errorSimilar,
-  } = similarMovies;
-  const movieCredits = useSelector((state) => state.movieCredits);
-  const { credits } = movieCredits;
+    id: { videoId },
+  } = items[0];
+  const videoSrc = `https://www.youtube.com/embed/${videoId}`;
+
+  const [showModal, setShowModal] = useState(false);
   const [slider, setSlider] = useState(0);
   const [sliderMax, setSliderMax] = useState(false);
 
   const getImageSource = (poster_path, configApi, size) => {
     const { images: { secure_base_url } = {} } = configApi;
     return `${secure_base_url}${size}/${poster_path}`;
+  };
+
+  const moveCastSlider = (type) => {
+    const element = document.getElementsByClassName("cast__list");
+    if (type === "right") {
+      element[0].scrollLeft += 70;
+    } else {
+      element[0].scrollLeft -= 70;
+    }
+    setSliderMax(
+      element[0].scrollLeft + element[0].clientWidth === element[0].scrollWidth
+    );
+    setSlider(element[0].scrollLeft);
+  };
+
+  const onViewTrailer = () => {
+    dispatch(getMovieTrailer(`${detail.title} trailer`));
+    setShowModal(true);
   };
 
   const renderCast = () => {
@@ -57,19 +82,6 @@ const Detail = ({ match, configApi }) => {
     );
   };
 
-  const moveCastSlider = (type) => {
-    const element = document.getElementsByClassName("cast__list");
-    if (type === "right") {
-      element[0].scrollLeft += 70;
-    } else {
-      element[0].scrollLeft -= 70;
-    }
-    setSliderMax(
-      element[0].scrollLeft + element[0].clientWidth === element[0].scrollWidth
-    );
-    setSlider(element[0].scrollLeft);
-  };
-
   useEffect(() => {
     const {
       params: { movieId },
@@ -77,6 +89,7 @@ const Detail = ({ match, configApi }) => {
     dispatch(getMovieDetails(movieId));
     dispatch(getSimilarMovies(movieId));
     dispatch(getMovieCredits(movieId));
+    dispatch(RESET_STATE());
   }, [dispatch, match]);
 
   return (
@@ -107,7 +120,7 @@ const Detail = ({ match, configApi }) => {
             <h1 className="title">{detail.title}</h1>
             <div className="info">
               <Rating
-                rating={detail.vote_average}
+                rating={detail.vote_average || 0}
                 voteCount={detail.vote_count}
               />
               <div>
@@ -136,6 +149,9 @@ const Detail = ({ match, configApi }) => {
                 ""
               )}
             </div>
+            <button className="btn btn__basic" onClick={onViewTrailer}>
+              <i class="far fa-play-circle"></i> Trailer
+            </button>
           </div>
         </div>
       )}
@@ -152,8 +168,23 @@ const Detail = ({ match, configApi }) => {
       ) : movies.length > 0 ? (
         <>
           <h1 className="section-title">Similar Movies</h1>
-          <MovieList movies={movies.splice(0, 10)} configApi={configApi} />
+          <MovieList movies={movies} configApi={configApi} />
         </>
+      ) : (
+        ""
+      )}
+      {videoId && showModal ? (
+        <Modal
+          content={
+            <iframe
+              style={{ width: "100%", height: "100%", border: "none" }}
+              src={videoSrc}
+              title={detail.title}
+            />
+          }
+          show={showModal}
+          close={() => setShowModal(false)}
+        />
       ) : (
         ""
       )}

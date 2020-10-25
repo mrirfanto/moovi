@@ -12,6 +12,7 @@ import {
   topRatedReducer,
   movieCreditsReducer,
 } from "./movieReducers";
+import { movieTrailerReducer } from "./youtubeReducers";
 
 const configApiReducer = (state = {}, action) => {
   if (action.type === "GET_CONFIG_API") return action.payload;
@@ -30,4 +31,5 @@ export default combineReducers({
   popularMovies: popularMoviesReducer,
   moviesByGenre: moviesByGenreReducer,
   movieCredits: movieCreditsReducer,
+  movieTrailer: movieTrailerReducer,
 });

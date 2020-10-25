@@ -101,7 +101,7 @@ export const getSimilarMovies = (movieId) => async (dispatch) => {
 
     dispatch({
       type: SIMILAR_MOVIES_SUCCESS,
-      payload: results,
+      payload: results.splice(10),
     });
   } catch (error) {
     dispatch({

@@ -18,7 +18,7 @@ const MovieCard = ({ movieId, movieImg, movieTitle, configApi }) => {
       return (
         <div className="card__poster__overlay">
           <Link to={`/detail/${movieId}`} replace>
-            <button className="btn">DETAILS</button>
+            <button className="btn btn__transparent">DETAILS</button>
           </Link>
         </div>
       );
