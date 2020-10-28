@@ -1,18 +1,18 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Redirect, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
-import { getConfigurationApi } from "../actions";
-import { getMovieGenres } from "../actions/movieActions";
+import { getConfigurationApi } from "./actions";
+import { getMovieGenres } from "./actions/movieActions";
 
-import "../styles/main.scss";
-import Home from "../pages/Home";
-import Detail from "../pages/Detail";
-import SearchResults from "../pages/SearchResults";
-import DiscoverMovie from "../pages/DiscoverMovie";
+import "./styles/main.scss";
+import Home from "./pages/Home";
+import Detail from "./pages/Detail";
+import SearchResults from "./pages/SearchResults";
+import DiscoverMovie from "./pages/DiscoverMovie";
 
-import Header from "./Header";
-import Sidebar from "./Sidebar";
+import Header from "./components/Header";
+import Sidebar from "./components/Sidebar";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -30,7 +30,10 @@ const App = () => {
           <Sidebar />
         </aside>
         <main className="container main">
-          <Route path="/" exact component={Home} />
+          <Route path="/" exact>
+            <Redirect to="/popular" />
+          </Route>
+          <Route path="/popular" component={Home} />
           <Route path="/detail/:movieId" component={Detail} />
           <Route path="/search/:query" component={SearchResults} />
           <Route path="/discover/:type" component={DiscoverMovie} />

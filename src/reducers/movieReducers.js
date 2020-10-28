@@ -32,9 +32,14 @@ import {
 export const popularMoviesReducer = (state = {}, action) => {
   switch (action.type) {
     case POPULAR_MOVIES_REQUEST:
-      return { ...state, loading: true, movies: [] };
+      return { ...state, loading: true, movies: [], totalPages: 0 };
     case POPULAR_MOVIES_SUCCESS:
-      return { ...state, loading: false, movies: action.payload };
+      return {
+        ...state,
+        loading: false,
+        movies: action.payload.results,
+        totalPages: action.payload.total_pages,
+      };
     case POPULAR_MOVIES_FAILED:
       return { ...state, loading: false, error: action.payload };
     default:

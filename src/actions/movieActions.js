@@ -30,16 +30,20 @@ import {
   MOVIE_CREDITS_FAILED,
 } from "../constants/movieConstants";
 
-export const getPopularMovies = () => async (dispatch) => {
+export const getPopularMovies = (page) => async (dispatch) => {
   try {
     dispatch({ type: POPULAR_MOVIES_REQUEST });
 
     const {
-      data: { results },
-    } = await moviedb.get("/movie/popular");
+      data: { results, total_pages },
+    } = await moviedb.get("/movie/popular", {
+      params: {
+        page,
+      },
+    });
     dispatch({
       type: POPULAR_MOVIES_SUCCESS,
-      payload: results,
+      payload: { results, total_pages },
     });
   } catch (error) {
     dispatch({
